@@ -26,8 +26,8 @@ FrozenCookies.preferenceValues = {
         'default':0
     },
     'autoSL':{
-        'hint':'Automatically harvest sugar lumps when ripe.',
-        'display':["Autoharvest SL OFF", "Autoharvest SL ON"],
+        'hint':'Automatically harvest sugar lumps when ripe, with option to automatically swap in Rigidel.',
+        'display':["Autoharvest SL OFF", "Autoharvest SL ON", "Autoharvest SL ON + Auto Rigidel"],
         'default':0
     },
     'autoReindeer':{
@@ -110,7 +110,7 @@ FrozenCookies.preferenceValues = {
     },
     'autoGodzamok':{
         'hint':'Automatically sell all cursors during Dragonflight and Click Frenzy if you worship Godzamok ("Sane" prevents rapid buy/sell spam)',
-        'display':['Auto-Godzamok OFF','Auto-Godzamok ON','Auto-Godzamok ON (Sane)'],
+        'display':['Auto-Godzamok OFF','Auto-Godzamok ON','Auto-Godzamok ON (Sane)','Auto-Godzamok (REALLY INSANE)'],
         'default':0
     },
     'autoSpell':{
@@ -118,6 +118,11 @@ FrozenCookies.preferenceValues = {
         'display':["Auto Cast OFF","Cojure Baked Goods","Force the Hand of Fate","Spontaneous Edifice","Haggler's Charm (cheapest)"],
         'default':0,
         'extras':'<a class="option" id="minCpSMult" onclick="updateCpSMultMin(\'minCpSMult\');">x${minCpSMult} minimum Frenzy</a>'
+    },
+    'holdSEBank':{
+        'hint':'Maintain a bank for Spontaneous Edifice (already enabled if Auto Casting SE).',
+        'display':["SE Bank OFF","SE Bank ON"],
+        'default':0,
     },
     'defaultSeason':{
         'hint':'Season to maintain when no others have needed upgrades',
