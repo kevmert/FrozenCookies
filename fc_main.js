@@ -28,6 +28,8 @@ function setOverrides() {
     FrozenCookies.frenzyClickSpeed = preferenceParse('frenzyClickSpeed', 0);
     FrozenCookies.HCAscendAmount = preferenceParse('HCAscendAmount', 0);
     FrozenCookies.minCpSMult = preferenceParse('minCpSMult', 1);
+    FrozenCookies.cursorMax = preferenceParse('cursorMax', 500);
+    FrozenCookies.manaMax = preferenceParse('nanaMax', 100);
 
     // Becomes 0 almost immediately after user input, so default to 0
     FrozenCookies.timeTravelAmount = 0;
@@ -144,6 +146,7 @@ function scientificNotation(value) {
     return value;
 }
 
+
 var numberFormatters = [
     rawFormatter,
     formatEveryThirdPower([
@@ -162,7 +165,31 @@ var numberFormatters = [
         ' duodecillion',
         ' tredecillion',
         ' quattuordecillion',
-        ' quindecillion'
+        ' quindecillion',
+        ' sexdecillion',
+        ' septendecillion',
+        ' octodecillion',
+        ' novemdecillion',
+        ' vigintillion',
+        ' unvigintillion',
+        ' duovigintillion',
+        ' trevigintillion',
+        ' quattuorvigintillion',
+        ' quinvigintillion',
+        ' sexvigintillion',
+        ' septenvigintillion',
+        ' octovigintillion',
+        ' novemvigintillion',
+        ' trigintillion',
+        ' untrigintillion',
+        ' duotrigintillion',
+        ' tretrigintillion',
+        ' quattuortrigintillion',
+        ' quintrigintillion',
+        ' sextrigintillion',
+        ' septentrigintillion',
+        ' octotrigintillion',
+        ' novemtrigintillion'
     ]),
 
     formatEveryThirdPower([
@@ -181,7 +208,31 @@ var numberFormatters = [
         ' DoD',
         ' TrD',
         ' QaD',
-        ' QiD'
+        ' QiD',
+        ' SxD',
+        ' SpD',
+        ' OcD',
+        ' NoD',
+        ' Vg',
+        ' UnV',
+        ' DoV',
+        ' TrV',
+        ' QaV',
+        ' QiV',
+        ' SxV',
+        ' SpV',
+        ' OcV',
+        ' NoV',
+        ' Tg',
+        ' UnT',
+        ' DoT',
+        ' TrT',
+        ' QaT',
+        ' QiT',
+        ' SxT',
+        ' SpT',
+        ' OcT',
+        ' NoT'
     ]),
 
     formatEveryThirdPower([
@@ -281,12 +332,15 @@ function updateLocalStorage() {
     localStorage.frenzyClickSpeed = FrozenCookies.frenzyClickSpeed;
     localStorage.cookieClickSpeed = FrozenCookies.cookieClickSpeed;
     localStorage.HCAscendAmount = FrozenCookies.HCAscendAmount;
+    localStorage.cursorMax = FrozenCookies.cursorMax;
+    localStorage.minCpSMult = FrozenCookies.minCpSMult;
     localStorage.frenzyTimes = JSON.stringify(FrozenCookies.frenzyTimes);
     //  localStorage.nonFrenzyTime = FrozenCookies.non_gc_time;
     //  localStorage.frenzyTime = FrozenCookies.gc_time;
     localStorage.lastHCAmount = FrozenCookies.lastHCAmount;
     localStorage.maxHCPercent = FrozenCookies.maxHCPercent;
     localStorage.lastHCTime = FrozenCookies.lastHCTime;
+    localStorage.manaMax = FrozenCookies.manaMax;
     localStorage.prevLastHCTime = FrozenCookies.prevLastHCTime;
 }
 
@@ -409,6 +463,40 @@ function updateAscendAmount(base) {
     var newAmount = getAscendAmount(FrozenCookies[base]);
     if (newAmount != FrozenCookies[base]) {
         FrozenCookies[base] = newAmount;
+        updateLocalStorage();
+        FCStart();
+    }
+}
+
+function getManaMax(current) {
+    var newMax = prompt('Set maximum mana: ', current);
+    if (typeof(newMax) == 'undefined' || newMax == null || isNaN(Number(newMax)) || Number(newMax < 0)) {
+        newMax = current;
+    }
+    return Number(newMax);
+}
+
+function updateManaMax(base) {
+    var newMax = getManaMax(FrozenCookies[base]);
+    if (newMax != FrozenCookies[base]) {
+        FrozenCookies[base] = newMax;
+        updateLocalStorage();
+        FCStart();
+    }
+}
+
+function getCursorMax(current) {
+    var newMax = prompt('How many Cursors should Autobuy stop at?', current);
+    if (typeof(newMax) == 'undefined' || newMax == null || isNaN(Number(newMax)) || Number(newMax < 0)) {
+        newMax = current;
+    }
+    return Number(newMax);
+}
+
+function updateCursorMax(base) {
+    var newMax = getCursorMax(FrozenCookies[base]);
+    if (newMax != FrozenCookies[base]) {
+        FrozenCookies[base] = newMax;
         updateLocalStorage();
         FCStart();
     }
@@ -549,7 +637,7 @@ function autoCast() {
             case 2:
                 var FTHOF = M.spellsById[1];
                 if (M.magicM < Math.floor(FTHOF.costMin + FTHOF.costPercent*M.magicM)) return;
-                if(cpsBonus() >= FrozenCookies.minCpSMult) {
+                if(cpsBonus() >= FrozenCookies.minCpSMult || Game.hasBuff('Dragonflight') || Game.hasBuff('Click frenzy')) {
                     M.castSpell(FTHOF);
                     logEvent('AutoSpell', 'Cast Force the Hand of Fate');
                 }
@@ -1022,18 +1110,26 @@ function recommendationList(recalculate) {
                 return a.efficiency != b.efficiency ? a.efficiency - b.efficiency : (a.delta_cps != b.delta_cps ? b.delta_cps - a.delta_cps : a.cost - b.cost);
             }));
         //If autocasting Spontaneous Edifice, don't buy any Chancemakers after 399
-        if (FrozenCookies.autoSpell == 3 && Game.Objects['Chancemaker'].amount >= 399) {
+        if (M && FrozenCookies.autoSpell == 3 && Game.Objects['Chancemaker'].amount >= 399) {
             for (var i = 0; i < FrozenCookies.caches.recommendationList.length; i++) {
                 if (FrozenCookies.caches.recommendationList[i].id == 14) {
                     FrozenCookies.caches.recommendationList.splice(i , 1);
                 }
             }
         }
-        //Stop buying wizard towers at 100 mana if using AutoSpell
-        if (FrozenCookies.autoSpell && M.magicM >= 100) {
+        //Stop buying wizard towers at max Mana if enabled
+        if (M && FrozenCookies.towerLimit && M.magicM >= FrozenCookies.manaMax) {
             for (var i = 0; i < FrozenCookies.caches.recommendationList.length; i++) {
                 if (FrozenCookies.caches.recommendationList[i].id == 7) {
                     FrozenCookies.caches.recommendationList.splice(i , 1);
+                }
+            }
+        }
+        //Stop buying Cursors if at set limit
+        if (FrozenCookies.cursorLimit && Game.Objects['Cursor'].amount >= FrozenCookies.cursorMax) {
+            for (var i = 0; i < FrozenCookies.caches.recommendationList.length; i++) {
+                if (FrozenCookies.caches.recommendationList[i].id == 0) {
+                    FrozenCookies.caches.recommendationList.splice(i, 1);
                 }
             }
         }
@@ -1201,6 +1297,18 @@ function isUnavailable(upgrade, upgradeBlacklist) {
 
     if (upgrade.id == 331) {
         result = true; // blacklist golden switch from being used, until proper logic can be implemented
+    }
+    
+    if (upgrade.id == 333) {
+        result = true; // blacklist milk selector from being used
+    }
+    
+    if (upgrade.id == 414) {
+        result = true; // blacklist background selector from being used
+    }
+
+    if (upgrade.id == 361) {
+        result = true; // blacklist golden cookie sound selector from being used
     }
 
     return result;
@@ -1477,6 +1585,7 @@ function buildingToggle(building, achievements) {
 }
 
 function buyFunctionToggle(upgrade) {
+    if (upgrade && upgrade.id==452) return null;
     if (upgrade && !upgrade.length) {
         if (!upgrade.buyFunction) {
             return null;
@@ -1862,9 +1971,10 @@ function shouldPopWrinklers() {
             });
         } else {
             var delay = delayAmount();
+            var wrinklerList = (FrozenCookies.shinyPop == 0) ? Game.wrinklers.filter(v => v.type == 0) : Game.wrinklers;
             var nextRecNeeded = nextPurchase().cost + delay - Game.cookies;
             var nextRecCps = nextPurchase().delta_cps;
-            var wrinklersNeeded = Game.wrinklers.sort(function(w1, w2) {
+            var wrinklersNeeded = wrinklerList.sort(function(w1, w2) {
                 return w1.sucked < w2.sucked
             }).reduce(function(current, w) {
                 var futureWrinklers = living.length - (current.ids.length + 1);
@@ -1905,7 +2015,7 @@ function autoGSBuy() {
             !Game.Upgrades['Golden switch [off]'].bought) {
             Game.Upgrades['Golden switch [off]'].buy();
         }
-    } else if (!Game.hasBuff('Frenzy')) {
+    } else if (cpsBonus() <= 1) {
         if (Game.Upgrades['Golden switch [on]'].unlocked &&
             !Game.Upgrades['Golden switch [on]'].bought) {
             Game.CalculateGains(); // Ensure price is updated since Frenzy ended
