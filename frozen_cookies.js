@@ -2,9 +2,10 @@
 var scriptElement = document.getElementById('frozenCookieScript') !== null ?
     document.getElementById('frozenCookieScript') :
     document.getElementById('modscript_frozen_cookies');
-var baseUrl = scriptElement !== null ?
-    scriptElement.getAttribute('src').replace(/\/frozen_cookies\.js$/, '') :
-    'https://kevmert.github.io/FrozenCookies/';
+//var baseUrl = scriptElement !== null ?
+//    scriptElement.getAttribute('src').replace(/\/frozen_cookies\.js$/, '') :
+//    'https://kevmert.github.io/FrozenCookies/';
+var baseUrl = 'https://kevmert.github.io/FrozenCookies/';
 var FrozenCookies = {
     'baseUrl': baseUrl,
     'branch': '',
