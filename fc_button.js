@@ -11,7 +11,7 @@ $('#logButton').hide();
 $('<style type="text/css">')
     .html(
     '#fcEfficiencyTable {width: 100%;}' +
-    '#fcButton {top: 0px; right: 0px; padding-top: 12px; font-size: 90%; background-position: -96px 0px;}' +
+    '#fcButton {top: 0px; right: 0px; padding-top: 12px; font-size: 90%; background-position: -100px 0px;}' +
     '.worst {border-width:1px; border-style:solid; border-color:#330000;}' +
     '.bad {border-width:1px; border-style:solid; border-color:#660033;}' +
     '.average {border-width:1px; border-style:solid; border-color:#663399;}' +
@@ -256,7 +256,7 @@ function updateTimers() {
         cursed_finger_delay = buffDuration('Cursed finger') / maxCookieTime(),
         building_special_delay = hasBuildingSpecialBuff() / maxCookieTime(),
         cookie_storm_delay = buffDuration('Cookie storm') / maxCookieTime(),
-        decimal_HC_complete = (Game.HowMuchPrestige(Game.cookiesEarned + Game.cookiesReset)%1),
+        // useless decimal_HC_complete = (Game.HowMuchPrestige(Game.cookiesEarned + Game.cookiesReset)%1),
         bankTotal = delayAmount(),
         purchaseTotal = nextPurchase().cost,
         bankCompletion = bankTotal ? (Math.min(Game.cookies, bankTotal)) / bankTotal : 0,
@@ -298,7 +298,7 @@ function updateTimers() {
         maxColor = (Game.cookies >= bankTotal) ? 'rgba(252, 212, 0, 1)' : 'rgba(201, 169, 0, 1)';
         t_draw.push({
             f_percent: bankMax,
-            name: "Max Bank",
+            name: !FrozenCookies.setHarvestBankPlant ? "Max Bank" : "Harvest Bank",
             display: Beautify(bankTotal),
             c1: maxColor,
             overlay: true
@@ -408,20 +408,12 @@ function updateTimers() {
             display: timeDisplay(buffDuration('Cookie storm')/Game.fps)
         });
     }
-    if (decimal_HC_complete>0) {
-        t_draw.push({
-            f_percent: decimal_HC_complete,
-            c1: "rgba(55, 169, 230, 1)",
-            name: "HC Completion",
-            display: (Math.round(decimal_HC_complete*10000)/100)+"%"
-        });
-    }
     height = $('#backgroundLeftCanvas').height() - 140;
     drawCircles(t_draw, 20, height);
 }
 
 function FCMenu() {
-    Game.UpdateMenu = function() {
+    	Game.UpdateMenu = function() {
         if (Game.onMenu !== 'fc_menu') {
             return Game.oldUpdateMenu();
         }
@@ -506,23 +498,33 @@ function FCMenu() {
         resetHC = currHC + prestigeDifference;
         subsection.append($('<div>').addClass('listing').html('<b>HC Now:</b> ' + Beautify(Game.heavenlyChips)));
         subsection.append($('<div>').addClass('listing').html('<b>HC After Reset:</b> ' + Beautify(resetHC)));
-        subsection.append($('<div>').addClass('listing').html('<b>Cookies to next HC:</b> ' + Beautify(nextHC(true))));
-        subsection.append($('<div>').addClass('listing').html('<b>Estimated time to next HC:</b> ' + nextHC()));
+        //useless, vanilla bar displays it anyway. subsection.append($('<div>').addClass('listing').html('<b>Cookies to next HC:</b> ' + Beautify(nextHC(true))));
+        //might be usefull on first and second ancesion. subsection.append($('<div>').addClass('listing').html('<b>Estimated time to next HC:</b> ' + nextHC()));
         if (currHC < resetHC) {
-            subsection.append($('<div>').addClass('listing').html('<b>Time since last HC:</b> ' + timeDisplay((Date.now() - FrozenCookies.lastHCTime)/1000)));
-            if (FrozenCookies.lastHCAmount - 1 >= currHC) {
-                subsection.append($('<div>').addClass('listing').html('<b>Time to get last HC:</b> ' + timeDisplay((FrozenCookies.lastHCTime - FrozenCookies.prevLastHCTime)/1000)));
-            }
+            //subsection.append($('<div>').addClass('listing').html('<b>Time since last HC:</b> ' + timeDisplay((Date.now() - FrozenCookies.lastHCTime)/1000)));
+            //if (FrozenCookies.lastHCAmount - 1 >= currHC) {
+            //    subsection.append($('<div>').addClass('listing').html('<b>Time to get last HC:</b> ' + timeDisplay((FrozenCookies.lastHCTime - FrozenCookies.prevLastHCTime)/1000)));
+            //}
             if (FrozenCookies.maxHCPercent > 0) {
                 subsection.append($('<div>').addClass('listing').html('<b>Max HC Gain/hr:</b> ' + Beautify(FrozenCookies.maxHCPercent)));
             }
             subsection.append($('<div>').addClass('listing').html('<b>Average HC Gain/hr:</b> ' + Beautify(60 * 60 * (FrozenCookies.lastHCAmount - currHC)/((FrozenCookies.lastHCTime - Game.startDate)/1000))));
-            if (FrozenCookies.lastHCAmount - 1 >= currHC) {
-                subsection.append($('<div>').addClass('listing').html('<b>Previous Average HC Gain/hr:</b> ' + Beautify(60 * 60 *(FrozenCookies.lastHCAmount - 1 - currHC)/((FrozenCookies.prevLastHCTime - Game.startDate)/1000))));
-            }
         }
         menu.append(subsection);
 
+        // Harvesting
+	if (FrozenCookies.setHarvestBankPlant){
+	    subsection = $('<div>').addClass('subsection');
+	    subsection.append($('<div>').addClass('title').html('Harvesting Information'));
+	    subsection.append($('<div>').addClass('listing').html('<b>Base CPS:</b> ' + Beautify(baseCps())));
+	    subsection.append($('<div>').addClass('listing').html('<b>Plant to harvest:</b> ' + FrozenCookies.harvestPlant));
+	    subsection.append($('<div>').addClass('listing').html('<b>Minutes of CpS:</b> ' + FrozenCookies.harvestMinutes + ' min'));
+	    subsection.append($('<div>').addClass('listing').html('<b>Max percent of Bank:</b> ' + FrozenCookies.harvestMaxPercent*100 + ' %'));
+	    subsection.append($('<div>').addClass('listing').html('<b>Single ' + FrozenCookies.harvestPlant + (FrozenCookies.setHarvestBankPlant < 6 ? ' harvesting' : ' exploding') + ':</b> ' + Beautify(baseCps() * 60 * FrozenCookies.harvestMinutes * FrozenCookies.harvestFrenzy * FrozenCookies.harvestBuilding / Math.pow(10, FrozenCookies.maxSpecials))));
+	    subsection.append($('<div>').addClass('listing').html('<b>Full garden ' + (FrozenCookies.setHarvestBankPlant < 6 ? ' harvesting' : ' exploding') + ' (36 plots):</b> ' + Beautify(36 * baseCps() * 60 * FrozenCookies.harvestMinutes * FrozenCookies.harvestFrenzy * FrozenCookies.harvestBuilding / Math.pow(10, FrozenCookies.maxSpecials))));
+	    menu.append(subsection);
+	}
+		
         // Other Information
         subsection = $('<div>').addClass('subsection');
         subsection.append($('<div>').addClass('title').html('Other Information'));
