@@ -2282,38 +2282,39 @@ function autoCookie() {
             }
         }
 	    
-	var FCMU = FCMU;
-	var FCMT = FCMT;
-	console.log('FCMT')
-	console.log(FCMT)
-        if (FrozenCookies.autoUpdateFCMenu != null && Game.T%(Game.fps*5)==0 && !Game.mouseDown && Game.onMenu=='fc_menu'){
-            if (FrozenCookies.autoUpdateFCMenu == 0){ //Auto OFF
-		if (FrozenCookies.autoUpdateFCMenu == 0 && (FCMT == 1 || FCMT == null)){
-			//hopefully turn off
-			clearInterval(FCMU);
-			console.log('FCMU OFF')
+	/* -------------------------WORK ON THIS LATER---------------------------------------------------
+	var FCMU = FCMU;	
+	var FCMT = FCMT;	//i dont know how to make a variable without resetting it
+	console.log('FCMT') 	//  check the vlaues
+	console.log(FCMT)  	// check the vlaues
+        if (FrozenCookies.autoUpdateFCMenu != null && Game.T%(Game.fps*5)==0 && !Game.mouseDown && Game.onMenu=='fc_menu'){ // dont constantly run and only run while in FCMenu refer to fc_button.js
+            if (FrozenCookies.autoUpdateFCMenu == 0){ 		//Auto OFF
+		if (FrozenCookies.autoUpdateFCMenu == 0 && (FCMT == 1 || FCMT == null)){ //only if menu is set off and toggle is in opposing value
+			clearInterval(FCMU);			// hopefully turn off
+			console.log('FCMU OFF')			// debug output
 		}
-                FCMT = 0;
+                FCMT = 0; // set toggle to off
             }
-	    if (FrozenCookies.autoUpdateFCMenu == 1){ //Auto ON
-		if (FrozenCookies.autoUpdateFCMenu == 1 && (FCMT == 0 || FCMT == null)){
-			FCMenuUpdate();
-			console.log('FCMU ON')
+	    if (FrozenCookies.autoUpdateFCMenu == 1){ 		//Auto ON
+		if (FrozenCookies.autoUpdateFCMenu == 1 && (FCMT == 0 || FCMT == null)){ //only if menu is set on and toggle is in opposing value
+			FCMenuUpdate(); 	//call function
+			console.log('FCMU ON')			// debug output
 		}
-		FCMT = 1;
+		FCMT = 1; // set toggle to on
             }
         }     
 	
 	function FCMenuUpdate(){
 		if (!Game.mouseDown && Game.onMenu=='fc_menu'){
 			setTimeout(Game.UpdateMenu, 2500);
-			console.log('gameupdate')
+			console.log('gameupdate')		// debug output
 		}
-		clearInterval(FCMU);
-		console.log('FCMU reset')
-		FCMU = setInterval(FCMenuUpdate, 2500);
-		console.log('FCMenuUpdate scheduled')
+		clearInterval(FCMU); // reset so it doesnt stack if called multiple times
+		console.log('FCMU reset')			// debug output
+		FCMU = setInterval(FCMenuUpdate, 2500); 	// auto call function again till cleared
+		console.log('FCMenuUpdate scheduled')		// debug output
 	}
+	*/------------------------------------------------------------------------------------------------------------
 	
         //var seConditions = (Game.cookies >= delay + recommendation.cost) || (!(FrozenCookies.autoSpell == 3) && !(FrozenCookies.holdSEBank))); //true == good on SE bank or don't care about it
         if (FrozenCookies.autoBuy && ((Game.cookies >= delay + recommendation.cost) || recommendation.purchase.name == "Elder Pledge") && (FrozenCookies.pastemode || isFinite(nextChainedPurchase().efficiency))) {
