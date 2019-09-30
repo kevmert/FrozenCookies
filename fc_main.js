@@ -2283,16 +2283,23 @@ function autoCookie() {
         }
 	    
 	var FCMU;
+	var FCMT;
 	
         if (FrozenCookies.autoUpdateFCMenu != null && Game.T%(Game.fps*5)==0 && !Game.mouseDown && Game.onMenu=='fc_menu'){
             if (FrozenCookies.autoUpdateFCMenu == 0){ //Auto OFF
-                //hopefully turn off
-		clearInterval(FCMU);
-		console.log('FCMU OFF')
+		if (FrozenCookies.autoUpdateFCMenu == 0 && FCMT == 1){
+			//hopefully turn off
+			clearInterval(FCMU);
+			console.log('FCMU OFF')*/
+		}
+                FCMT = 0;
             }
 	    if (FrozenCookies.autoUpdateFCMenu == 1){ //Auto ON
-		FCMenuUpdate();
-		console.log('FCMU ON')
+		if (FrozenCookies.autoUpdateFCMenu == 1 && FCMT == 0){
+			FCMenuUpdate();
+			console.log('FCMU ON')
+		}
+		FCMT = 1;
             }
         }     
 	
