@@ -2284,7 +2284,8 @@ function autoCookie() {
 	    
 	var FCMU;
 	var FCMT;
-	console.log('FCMT' FCMT)
+	console.log('FCMT')
+	console.log(FCMT)
         if (FrozenCookies.autoUpdateFCMenu != null && Game.T%(Game.fps*5)==0 && !Game.mouseDown && Game.onMenu=='fc_menu'){
             if (FrozenCookies.autoUpdateFCMenu == 0){ //Auto OFF
 		if (FrozenCookies.autoUpdateFCMenu == 0 && (FCMT == 1 || FCMT == null)){
