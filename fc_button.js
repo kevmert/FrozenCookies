@@ -413,7 +413,7 @@ function updateTimers() {
 }
 
 function FCMenu() {
-	FCMenuUpdate;
+	FCMenuUpdate = setInterval(Game.UpdateMenu, 5000);
 	clearInterval(FCMenuUpdate);
     	Game.UpdateMenu = function() {
         if (Game.onMenu !== 'fc_menu') {
