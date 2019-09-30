@@ -2281,16 +2281,25 @@ function autoCookie() {
                 document.getElementById('storeBulk100').click();
             }
         }
+	    
+	var FCMU;
 	
         if (FrozenCookies.autoUpdateFCMenu != null){
             if (FrozenCookies.autoUpdateFCMenu == 0){ //Auto ON
-                if (Game.T%(Game.fps*5)==0 && !Game.mouseDown && Game.onMenu=='fc_menu') Game.UpdateMenu();
+			FCMenuUpdate();
             }
             if (FrozenCookies.autoUpdateFCMenu == 1){ //Auto OFF
-                //hopefully do nothing
+                //hopefully turn off
+		clearInterval(FCMU);
             }
         }     
 	
+	function FCMenuUpdate(){
+		if (!Game.mouseDown && Game.onMenu=='fc_menu'){
+			Game.UpdateMenu();
+		}
+		FCMU = setInterval(FCMenuUpdate, 5000);
+	}
 	
         //var seConditions = (Game.cookies >= delay + recommendation.cost) || (!(FrozenCookies.autoSpell == 3) && !(FrozenCookies.holdSEBank))); //true == good on SE bank or don't care about it
         if (FrozenCookies.autoBuy && ((Game.cookies >= delay + recommendation.cost) || recommendation.purchase.name == "Elder Pledge") && (FrozenCookies.pastemode || isFinite(nextChainedPurchase().efficiency))) {
