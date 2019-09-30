@@ -2290,7 +2290,7 @@ function autoCookie() {
 		if (FrozenCookies.autoUpdateFCMenu == 0 && FCMT == 1){
 			//hopefully turn off
 			clearInterval(FCMU);
-			console.log('FCMU OFF')*/
+			console.log('FCMU OFF')
 		}
                 FCMT = 0;
             }
