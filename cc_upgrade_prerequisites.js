@@ -1,4 +1,9 @@
 FrozenCookies.preferenceValues = {
+    'autoUpdateFCMenu':{
+        'hint':'Automatically update this menu',
+        'display':["Auto ON","Auto OFF"],
+        'default':0
+    },
     'autoBuy':{
         'hint':'Automatically buy the most efficient building when you\'ve met its cost',
         'display':["Autobuy OFF","Autobuy ON"],
