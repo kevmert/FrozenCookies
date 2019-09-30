@@ -2314,7 +2314,7 @@ function autoCookie() {
 		FCMU = setInterval(FCMenuUpdate, 2500); 	// auto call function again till cleared
 		console.log('FCMenuUpdate scheduled')		// debug output
 	}
-	*/------------------------------------------------------------------------------------------------------------
+	------------------------------------------------------------------------------------------------------------*/
 	
         //var seConditions = (Game.cookies >= delay + recommendation.cost) || (!(FrozenCookies.autoSpell == 3) && !(FrozenCookies.holdSEBank))); //true == good on SE bank or don't care about it
         if (FrozenCookies.autoBuy && ((Game.cookies >= delay + recommendation.cost) || recommendation.purchase.name == "Elder Pledge") && (FrozenCookies.pastemode || isFinite(nextChainedPurchase().efficiency))) {
