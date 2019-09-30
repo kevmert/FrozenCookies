@@ -2284,18 +2284,19 @@ function autoCookie() {
 	    
 	var FCMU;
 	
-        if (FrozenCookies.autoUpdateFCMenu != null){
+        if (FrozenCookies.autoUpdateFCMenu != null && Game.T%(Game.fps*5)==0 && !Game.mouseDown && Game.onMenu=='fc_menu'){
             if (FrozenCookies.autoUpdateFCMenu == 0){ //Auto OFF
                 //hopefully turn off
 		clearInterval(FCMU);
 		console.log('FCMU OFF')
             }
 	    if (FrozenCookies.autoUpdateFCMenu == 1){ //Auto ON
-		FCMenuUpdate();
+		//FCMenuUpdate();
+		    Game.UpdateMenu();
 		console.log('FCMU ON')
             }
         }     
-	
+	/*
 	function FCMenuUpdate(){
 		if (!Game.mouseDown && Game.onMenu=='fc_menu'){
 			setTimeout(Game.UpdateMenu, 2500);
@@ -2304,7 +2305,7 @@ function autoCookie() {
 		FCMU = setInterval(FCMenuUpdate, 2500);
 		console.log('FCMenuUpdate scheduled')
 	}
-	
+	*/
         //var seConditions = (Game.cookies >= delay + recommendation.cost) || (!(FrozenCookies.autoSpell == 3) && !(FrozenCookies.holdSEBank))); //true == good on SE bank or don't care about it
         if (FrozenCookies.autoBuy && ((Game.cookies >= delay + recommendation.cost) || recommendation.purchase.name == "Elder Pledge") && (FrozenCookies.pastemode || isFinite(nextChainedPurchase().efficiency))) {
             //    if (FrozenCookies.autoBuy && (Game.cookies >= delay + recommendation.cost)) {
