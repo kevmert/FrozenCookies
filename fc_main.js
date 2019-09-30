@@ -2301,6 +2301,8 @@ function autoCookie() {
 			setTimeout(Game.UpdateMenu, 2500);
 			console.log('gameupdate')
 		}
+		clearInterval(FCMU);
+		console.log('FCMU reset')
 		FCMU = setInterval(FCMenuUpdate, 2500);
 		console.log('FCMenuUpdate scheduled')
 	}
