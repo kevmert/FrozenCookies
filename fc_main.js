@@ -2284,10 +2284,10 @@ function autoCookie() {
 	    
 	var FCMU;
 	var FCMT;
-	
+	console.log('FCMT ' FCMT)
         if (FrozenCookies.autoUpdateFCMenu != null && Game.T%(Game.fps*5)==0 && !Game.mouseDown && Game.onMenu=='fc_menu'){
             if (FrozenCookies.autoUpdateFCMenu == 0){ //Auto OFF
-		if (FrozenCookies.autoUpdateFCMenu == 0 && FCMT == 1){
+		if (FrozenCookies.autoUpdateFCMenu == 0 && (FCMT == 1 || FCMT == null)){
 			//hopefully turn off
 			clearInterval(FCMU);
 			console.log('FCMU OFF')
@@ -2295,7 +2295,7 @@ function autoCookie() {
                 FCMT = 0;
             }
 	    if (FrozenCookies.autoUpdateFCMenu == 1){ //Auto ON
-		if (FrozenCookies.autoUpdateFCMenu == 1 && FCMT == 0){
+		if (FrozenCookies.autoUpdateFCMenu == 1 && (FCMT == 0 || FCMT == null)){
 			FCMenuUpdate();
 			console.log('FCMU ON')
 		}
