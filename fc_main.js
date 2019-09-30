@@ -2282,8 +2282,8 @@ function autoCookie() {
             }
         }
 	    
-	var FCMU;
-	var FCMT;
+	var FCMU = FCMU;
+	var FCMT = FCMT;
 	console.log('FCMT')
 	console.log(FCMT)
         if (FrozenCookies.autoUpdateFCMenu != null && Game.T%(Game.fps*5)==0 && !Game.mouseDown && Game.onMenu=='fc_menu'){
