@@ -2280,8 +2280,18 @@ function autoCookie() {
             if (FrozenCookies.autoBulk == 2){ //Buy x100
                 document.getElementById('storeBulk100').click();
             }
-        }         
-        
+        }
+	
+        if (FrozenCookies.autoUpdateFCMenu != null){
+            if (FrozenCookies.autoUpdateFCMenu == 0){ //Auto ON
+                if (Game.T%(Game.fps*5)==0 && !Game.mouseDown && Game.onMenu=='fc_menu') Game.UpdateMenu();
+            }
+            if (FrozenCookies.autoUpdateFCMenu == 1){ //Auto OFF
+                //hopefully do nothing
+            }
+        }     
+	
+	
         //var seConditions = (Game.cookies >= delay + recommendation.cost) || (!(FrozenCookies.autoSpell == 3) && !(FrozenCookies.holdSEBank))); //true == good on SE bank or don't care about it
         if (FrozenCookies.autoBuy && ((Game.cookies >= delay + recommendation.cost) || recommendation.purchase.name == "Elder Pledge") && (FrozenCookies.pastemode || isFinite(nextChainedPurchase().efficiency))) {
             //    if (FrozenCookies.autoBuy && (Game.cookies >= delay + recommendation.cost)) {
