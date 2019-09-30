@@ -413,6 +413,8 @@ function updateTimers() {
 }
 
 function FCMenu() {
+	FCMenuUpdate;
+	clearInterval(FCMenuUpdate);
     	Game.UpdateMenu = function() {
         if (Game.onMenu !== 'fc_menu') {
             return Game.oldUpdateMenu();
@@ -600,5 +602,5 @@ function FCMenu() {
         subsection.append($('<div>').addClass('listing').append(buildTable));
         menu.append(subsection);
     };
-	setTimeout(FCMenu, 3000);
+	FCMenuUpdate = setInterval(Game.UpdateMenu, 5000);
 }
