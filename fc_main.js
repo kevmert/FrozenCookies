@@ -2285,20 +2285,24 @@ function autoCookie() {
 	var FCMU;
 	
         if (FrozenCookies.autoUpdateFCMenu != null){
-            if (FrozenCookies.autoUpdateFCMenu == 0){ //Auto ON
-			FCMenuUpdate();
-            }
-            if (FrozenCookies.autoUpdateFCMenu == 1){ //Auto OFF
+            if (FrozenCookies.autoUpdateFCMenu == 0){ //Auto OFF
                 //hopefully turn off
 		clearInterval(FCMU);
+		console.log("FCMU OFF")
+            }
+	    if (FrozenCookies.autoUpdateFCMenu == 1){ //Auto ON
+		FCMenuUpdate();
+		console.log("FCMU ON")
             }
         }     
 	
 	function FCMenuUpdate(){
 		if (!Game.mouseDown && Game.onMenu=='fc_menu'){
-			Game.UpdateMenu();
+			setTimeout(Game.UpdateMenu, 2500);
+			console.log("gameupdate")
 		}
-		FCMU = setInterval(FCMenuUpdate, 5000);
+		FCMU = setInterval(FCMenuUpdate, 2500);
+		console.log("FCMenuUpdate scheduled")
 	}
 	
         //var seConditions = (Game.cookies >= delay + recommendation.cost) || (!(FrozenCookies.autoSpell == 3) && !(FrozenCookies.holdSEBank))); //true == good on SE bank or don't care about it
