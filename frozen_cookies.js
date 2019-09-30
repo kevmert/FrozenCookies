@@ -5,7 +5,7 @@ var scriptElement = document.getElementById('frozenCookieScript') !== null ?
 //var baseUrl = scriptElement !== null ?
 //    scriptElement.getAttribute('src').replace(/\/frozen_cookies\.js$/, '') :
 //    'https://kevmert.github.io/FrozenCookies/';
-var baseUrl = 'https://raw.githubusercontent.com/kevmert/FrozenCookies/test-FCMenu-refresh/';
+var baseUrl = 'https://kevmert.github.io/FrozenCookies/';
 var FrozenCookies = {
     'baseUrl': baseUrl,
     'branch': '',
