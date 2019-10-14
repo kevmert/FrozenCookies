@@ -1,7 +1,7 @@
 FrozenCookies.preferenceValues = {
     'autoUpdateFCMenu':{
         'hint':'Automatically update this menu',
-        'display':["Auto OFF","Auto ON"],
+        'display':["FC Menu Auto update OFF","FC Menu Auto update ON"],
         'default':0
     },
     'autoBuy':{
