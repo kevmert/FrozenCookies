@@ -2286,6 +2286,7 @@ function autoCookie() {
         if (FrozenCookies.autoUpdateFCMenu != null && FrozenCookies.autoUpdateFCMenu != 0 && Game.T%(Game.fps*5)==0 && !Game.mouseDown && Game.onMenu=='fc_menu'){ // dont constantly run and only run while in FCMenu refer to fc_button.js
 	    if (FrozenCookies.autoUpdateFCMenu == 1){ 
 		Game.UpdateMenu
+		console.log('gameupdate')
             }
         }     
 	/*------------------------------------------------------------------------------------------------------------*/
