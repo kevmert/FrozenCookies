@@ -2283,12 +2283,16 @@ function autoCookie() {
         }
 	    
 	/* -------------------------WORK ON THIS LATER---------------------------------------------------*/
-        if (FrozenCookies.autoUpdateFCMenu != null && FrozenCookies.autoUpdateFCMenu != 0 && Game.T%(Game.fps*5)==0 && !Game.mouseDown && Game.onMenu=='fc_menu'){ // dont constantly run and only run while in FCMenu refer to fc_button.js
+        if (Game.onMenu=='fc_menu' && Game.T%(Game.fps*5)==0 && FrozenCookies.autoUpdateFCMenu != 0 && !Game.mouseDown){ // dont constantly run and only run while in FCMenu refer to fc_button.js
 	    if (FrozenCookies.autoUpdateFCMenu == 1){ 
-		Game.UpdateMenu
-		console.log('gameupdate')
+		Game.UpdateMenu();
+		console.log('gameupdate');
+		//FCMenuUpdate();
             }
-        }     
+        }
+	//function FCMenuUpdate(){
+	//	Game.UpdateMenu();
+	//}
 	/*------------------------------------------------------------------------------------------------------------*/
 	
         //var seConditions = (Game.cookies >= delay + recommendation.cost) || (!(FrozenCookies.autoSpell == 3) && !(FrozenCookies.holdSEBank))); //true == good on SE bank or don't care about it
