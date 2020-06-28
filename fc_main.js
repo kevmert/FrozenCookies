@@ -2298,9 +2298,6 @@ function autoCookie() {
             disabledPopups = false;
             //      console.log(purchase.name + ': ' + Beautify(recommendation.efficiency) + ',' + Beautify(recommendation.delta_cps));
             recommendation.purchase.buy();
-            if (Game.onMenu=='fc_menu' && FrozenCookies.autoUpdateFCMenu == 1 && !Game.mouseDown){ // dont constantly run and only run while in FCMenu refer to fc_button.js
-		Game.UpdateMenu();
-            }
             FrozenCookies.autobuyCount += 1;
             if (FrozenCookies.trackStats == 5 && recommendation.type == 'upgrade') {
                 saveStats();
@@ -2316,6 +2313,9 @@ function autoCookie() {
             FrozenCookies.recalculateCaches = true;
             FrozenCookies.processing = false;
             itemBought = true;
+            if (Game.onMenu=='fc_menu' && FrozenCookies.autoUpdateFCMenu == 1 && !Game.mouseDown){ // dont constantly run and only run while in FCMenu refer to fc_button.js
+		Game.UpdateMenu();
+            }
         }
 
         if (FrozenCookies.autoAscend && !Game.OnAscend && !Game.AscendTimer) {
