@@ -2282,11 +2282,11 @@ function autoCookie() {
             }
         }
 	    
-        if (Game.onMenu=='fc_menu' && Game.T%(Game.fps*5)==0 && FrozenCookies.autoUpdateFCMenu != 0 && !Game.mouseDown){ // dont constantly run and only run while in FCMenu refer to fc_button.js
-	    if (FrozenCookies.autoUpdateFCMenu == 1){ 
-		Game.UpdateMenu();
-            }
-        }
+        //if (Game.onMenu=='fc_menu' && Game.T%(Game.fps*5)==0 && FrozenCookies.autoUpdateFCMenu != 0 && !Game.mouseDown){ // dont constantly run and only run while in FCMenu refer to fc_button.js
+	//    if (FrozenCookies.autoUpdateFCMenu == 1){ 
+	//	Game.UpdateMenu();
+        //    }
+        //}
 	
         //var seConditions = (Game.cookies >= delay + recommendation.cost) || (!(FrozenCookies.autoSpell == 3) && !(FrozenCookies.holdSEBank))); //true == good on SE bank or don't care about it
         if (FrozenCookies.autoBuy && ((Game.cookies >= delay + recommendation.cost) || recommendation.purchase.name == "Elder Pledge") && (FrozenCookies.pastemode || isFinite(nextChainedPurchase().efficiency))) {
@@ -2298,6 +2298,9 @@ function autoCookie() {
             disabledPopups = false;
             //      console.log(purchase.name + ': ' + Beautify(recommendation.efficiency) + ',' + Beautify(recommendation.delta_cps));
             recommendation.purchase.buy();
+            if (Game.onMenu=='fc_menu' && FrozenCookies.autoUpdateFCMenu == 1 && !Game.mouseDown){ // dont constantly run and only run while in FCMenu refer to fc_button.js
+		Game.UpdateMenu();
+            }
             FrozenCookies.autobuyCount += 1;
             if (FrozenCookies.trackStats == 5 && recommendation.type == 'upgrade') {
                 saveStats();
