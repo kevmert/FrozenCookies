@@ -1024,7 +1024,7 @@ function harvestBank() {
                            	    Game.Objects['Antimatter condenser'].amount,
                            	    Game.Objects['Prism'].amount,
                            	    Game.Objects['Chancemaker'].amount,
-                           	    Game.Objects['Fractal engine'].amount];
+                           	    Game.Objects['Fractal engine'].amount],
                            	    Game.Objects['Javascript Console'].amount,
                            	    Game.Objects['Idleverse'].amount];
 	harvestBuildingArray.sort(function(a, b){return b-a});
