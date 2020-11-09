@@ -654,9 +654,11 @@ function autoRigidel() {
     }
 }
                 
-            
-            
-        
+function autoTicker(){
+	if (Game.TickerEffect && Game.TickerEffect.type=='fortune'){
+		Game.tickerL.click();
+	}
+}
         
 function autoCast() {
     if (!M) return; //Just leave if you don't have grimoire
@@ -682,14 +684,14 @@ function autoCast() {
                 return;
             case 3:
                 var SE = M.spellsById[3];
-		//Chancemaker replaced by new Fractal engine	
-                //If you don't have any Fractal engine yet, or can't cast SE, just give up.
-                if (Game.Objects['Fractal engine'].amount == 0 || M.magicM < Math.floor(SE.costMin + SE.costPercent*M.magicM)) return;
-                //If we have over 400 CM, always going to sell down to 399. If you don't have half a Chancemaker in bank, sell one
-                while (Game.Objects['Fractal engine'].amount >= 400 || Game.cookies < Game.Objects['Fractal engine'].price/2) {
-                   Game.Objects['Fractal engine'].sell(1);
+		//Fractal engine replaced by new Idleverse	
+                //If you don't have any Idleverse yet, or can't cast SE, just give up.
+                if (Game.Objects['Idleverse'].amount == 0 || M.magicM < Math.floor(SE.costMin + SE.costPercent*M.magicM)) return;
+                //If we have over 400 CM, always going to sell down to 399. If you don't have half a Idleverse in bank, sell one
+                while (Game.Objects['Idleverse'].amount >= 400 || Game.cookies < Game.Objects['Idleverse'].price/2) {
+                   Game.Objects['Idleverse'].sell(1);
 		//log event calculation outdated. sell return was reduced from .85 with earth shatterer to .5
-                   logEvent('Store', 'Sold 1 Fractal engine for ' + Beautify(Game.Objects['Fractal engine'].price*1.15*.50));
+                   logEvent('Store', 'Sold 1 Idleverse for ' + Beautify(Game.Objects['Idleverse'].price*1.15*.50));
                 }
                 M.castSpell(SE);
                 logEvent('AutoSpell', 'Cast Spontaneous Edifice');
@@ -969,13 +971,13 @@ function estimatedTimeRemaining(cookies) {
 }
 
 function canCastSE() {
-    if (M.magicM >= 80 && Game.Objects['Fractal engine'].amount > 0) return 1;
+    if (M.magicM >= 80 && Game.Objects['Idleverse'].amount > 0) return 1;
     return 0;
 }
 
 function edificeBank() {
     if (!canCastSE) return 0;
-    var cmCost = Game.Objects['Fractal engine'].price;
+    var cmCost = Game.Objects['Idleverse'].price;
     return Game.hasBuff('everything must go') ? (cmCost * (100/95))/2 : cmCost/2;
 }
 function luckyBank() {
@@ -1022,7 +1024,9 @@ function harvestBank() {
                            	    Game.Objects['Antimatter condenser'].amount,
                            	    Game.Objects['Prism'].amount,
                            	    Game.Objects['Chancemaker'].amount,
-	    			    Game.Objects['Fractal engine'].amount];
+                           	    Game.Objects['Fractal engine'].amount];
+                           	    Game.Objects['Javascript Console'].amount,
+                           	    Game.Objects['Idleverse'].amount];
 	harvestBuildingArray.sort(function(a, b){return b-a});
 	    
 	for(var buildingLoop = 0; buildingLoop < FrozenCookies.maxSpecials ; buildingLoop++){
@@ -1237,8 +1241,8 @@ function recommendationList(recalculate) {
             .sort(function(a, b) {
                 return a.efficiency != b.efficiency ? a.efficiency - b.efficiency : (a.delta_cps != b.delta_cps ? b.delta_cps - a.delta_cps : a.cost - b.cost);
             }));
-        //If autocasting Spontaneous Edifice, don't buy any Fractal engine after 399
-        if (M && FrozenCookies.autoSpell == 3 && Game.Objects['Fractal engine'].amount >= 399) {
+        //If autocasting Spontaneous Edifice, don't buy any Idleverse after 399
+        if (M && FrozenCookies.autoSpell == 3 && Game.Objects['Idleverse'].amount >= 399) {
             for (var i = 0; i < FrozenCookies.caches.recommendationList.length; i++) {
                 if (FrozenCookies.caches.recommendationList[i].id == 15) {
                     FrozenCookies.caches.recommendationList.splice(i , 1);
